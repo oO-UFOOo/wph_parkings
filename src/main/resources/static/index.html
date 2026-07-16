@@ -1,33 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open Eye Security</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SOPA | Open Eye Security</title>
+
   <style>
-    * { box-sizing: border-box; }
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #ffffff;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    body {
-      display: block;
+    html,body{
+      width:100%;
+      height:100%;
+      overflow:hidden;
     }
 
-    img {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-width: 100%;
+    body{
+
+      background:
+              radial-gradient(circle at 50% 110%,
+              rgba(0,95,255,.20) 0%,
+              rgba(0,95,255,.08) 25%,
+              transparent 55%),
+
+              radial-gradient(circle at center,
+              #071932 0%,
+              #041225 55%,
+              #020814 100%);
+
+      font-family:Arial,Helvetica,sans-serif;
     }
+
+    /* LOGOS */
+
+    .logo-container{
+
+      position:fixed;
+      inset:0;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      z-index:1;
+      pointer-events:none;
+    }
+
+    .logo{
+
+      position:absolute;
+
+      max-width:min(900px,88vw);
+      max-height:75vh;
+
+      width:auto;
+      height:auto;
+
+      object-fit:contain;
+
+      opacity:0;
+      transform:scale(.90);
+
+      transition:
+              opacity .9s ease,
+              transform .9s cubic-bezier(.2,.9,.3,1);
+
+      filter:
+              drop-shadow(0 0 18px rgba(70,160,255,.45))
+              drop-shadow(0 0 45px rgba(0,110,255,.20));
+    }
+
+    .logo.active{
+
+      opacity:1;
+      transform:scale(1);
+
+    }
+
+    /* PARTICLES */
+
+    #particles-js{
+
+      position:fixed;
+      inset:0;
+
+      width:100%;
+      height:100%;
+
+      z-index:2;
+    }
+
+    @media(max-width:768px){
+
+      .logo{
+
+        max-width:95vw;
+        max-height:70vh;
+
+      }
+
+    }
+
   </style>
 
 </head>
+
 <body>
-  <img src="sopa.png" alt="Open Eye Security logo" />
+
+<div class="logo-container">
+
+  <img id="logo1"
+       src="img.png"
+       class="logo active"
+       alt="Splash Logo">
+
+  <img id="logo2"
+       src="2.png"
+       class="logo"
+       alt="Main Logo">
+
+</div>
+
+<div id="particles-js"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<script>
+
+  particlesJS("particles-js",{
+
+    particles:{
+
+      number:{
+        value:90,
+        density:{
+          enable:true,
+          value_area:900
+        }
+      },
+
+      color:{
+        value:"#ffffff"
+      },
+
+      shape:{
+        type:"circle"
+      },
+
+      opacity:{
+        value:.55,
+        random:true
+      },
+
+      size:{
+        value:3,
+        random:true
+      },
+
+      line_linked:{
+        enable:true,
+        distance:150,
+        color:"#69a9ff",
+        opacity:.28,
+        width:1
+      },
+
+      move:{
+        enable:true,
+        speed:1.4,
+        direction:"none",
+        random:true,
+        straight:false,
+        out_mode:"out"
+      }
+
+    },
+
+    interactivity:{
+
+      detect_on:"canvas",
+
+      events:{
+
+        onhover:{
+          enable:true,
+          mode:"grab"
+        },
+
+        onclick:{
+          enable:true,
+          mode:"repulse"
+        },
+
+        resize:true
+
+      },
+
+      modes:{
+
+        grab:{
+          distance:180,
+          line_linked:{
+            opacity:.9
+          }
+        },
+
+        repulse:{
+          distance:180,
+          duration:.5
+        }
+
+      }
+
+    },
+
+    retina_detect:true
+
+  });
+
+
+  const logo1=document.getElementById("logo1");
+  const logo2=document.getElementById("logo2");
+
+  window.addEventListener("load",()=>{
+
+    logo1.classList.add("active");
+
+    setTimeout(()=>{
+
+      // First logo fades and shrinks
+      logo1.style.transform="scale(.75)";
+      logo1.style.opacity="0";
+
+      // Small delay for cinematic feel
+      setTimeout(()=>{
+
+        logo2.classList.add("active");
+
+        // Nice pop animation
+        logo2.animate([
+          {
+            transform:"scale(.85)",
+            opacity:0
+          },
+          {
+            transform:"scale(1.05)",
+            opacity:1
+          },
+          {
+            transform:"scale(1)"
+          }
+
+        ],{
+
+          duration:900,
+          easing:"cubic-bezier(.18,.9,.25,1)"
+
+        });
+
+      },350);
+
+    },5000);
+
+  });
+
+</script>
+
 </body>
 </html>
