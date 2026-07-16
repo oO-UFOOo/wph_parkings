@@ -5,9 +5,14 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Table(name = "parkings")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Parking {
 
     @Id
@@ -29,41 +34,4 @@ public class Parking {
     @DecimalMax(value = "90.0")
     @Column(nullable = false)
     private Double latitude;
-
-    public Parking() {
-    }
-
-    public Parking(String parkingName, Double longitude, Double latitude) {
-        this.parkingName = parkingName;
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getParkingName() {
-        return parkingName;
-    }
-
-    public void setParkingName(String parkingName) {
-        this.parkingName = parkingName;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
 }
