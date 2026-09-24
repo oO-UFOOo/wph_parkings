@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:16
-    container_name: parking-db
+    container_name: sopa-db
     restart: unless-stopped
     environment:
       POSTGRES_DB: parkingdb
@@ -16,7 +16,7 @@ services:
 
   app:
     build: .
-    container_name: parking-app
+    container_name: sopa-backend
     restart: unless-stopped
     depends_on:
       - db
