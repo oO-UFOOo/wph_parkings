@@ -1,7 +1,7 @@
-package com.wph.controller;
+package com.sopa.controller;
 
-import com.wph.entity.*;
-import com.wph.repository.ParkingRepository;
+import com.sopa.entity.*;
+import com.sopa.repository.ParkingRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.wph.entity;
+package com.sopa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;

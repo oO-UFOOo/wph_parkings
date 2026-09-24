@@ -1,6 +1,6 @@
-package com.wph.repository;
+package com.sopa.repository;
 
-import com.wph.entity.Parking;
+import com.sopa.entity.Parking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

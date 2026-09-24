@@ -1,4 +1,4 @@
-package com.wph;
+package com.sopa;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
