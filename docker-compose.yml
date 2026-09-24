@@ -1,18 +1,18 @@
 version: "3.8"
 
 services:
-  db:
-    image: postgres:16
-    container_name: sopa-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: parkingdb
-      POSTGRES_USER: parkinguser
-      POSTGRES_PASSWORD: parkingpass
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+#  db:
+#    image: postgres:16
+#    container_name: sopa-db
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: parkingdb
+#      POSTGRES_USER: parkinguser
+#      POSTGRES_PASSWORD: parkingpass
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
 
   app:
     build: .
