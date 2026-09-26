@@ -365,63 +365,95 @@
   </div>
 
   <!-- PARTICLES.JS LIBRARY -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // Lightweight local fallback particles animation so the page works without external CDNs
+    const canvas = document.createElement('canvas');
+    canvas.id = 'particles-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.zIndex = '1';
+    document.getElementById('particles-js').appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    const DPR = window.devicePixelRatio || 1;
+    const particles = [];
+    const count = 40;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * DPR;
+      canvas.height = window.innerHeight * DPR;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function initParticles() {
+      particles.length = 0;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: rand(0, window.innerWidth),
+          y: rand(0, window.innerHeight),
+          vx: rand(-0.35, 0.35),
+          vy: rand(-0.35, 0.35),
+          r: rand(1, 2.5)
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.fillStyle = 'rgba(0, 95, 255, 0.8)';
+      ctx.strokeStyle = 'rgba(0, 95, 255, 0.25)';
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+        if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i];
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            ctx.globalAlpha = 1 - dist / 130;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      initParticles();
+    });
+    resizeCanvas();
+    initParticles();
+    drawParticles();
+  </script>
 
   <script>
-    // Initialize particles
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 50, density: { enable: true, value_area: 800 } },
-        color: { value: "#005fff" },
-        shape: {
-          type: "circle",
-          stroke: { width: 0, color: "#000000" },
-          polygon: { nb_sides: 5 }
-        },
-        opacity: {
-          value: 0.5,
-          random: false,
-          anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#005fff",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 6,
-          direction: "none",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          attract: { enable: false, rotateX: 600, rotateY: 1200 }
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" },
-          resize: true
-        },
-        modes: {
-          grab: { distance: 400, line_linked: { opacity: 1 } },
-          bubble: { distance: 400, size: 40, duration: 2, opacity: 1, speed: 3 },
-          repulse: { distance: 200, duration: 0.4 },
-          push: { particles_nb: 4 },
-          remove: { particles_nb: 2 }
-        }
-      },
-      retina_detect: true
-    });
+    function getApiBase() {
+      const origin = window.location.origin;
+      if (origin && origin !== "null") {
+        return origin;
+      }
+      return window.location.protocol === "https:" ? `https://${window.location.host}` : `http://${window.location.host}`;
+    }
 
     // LOGIN HANDLER
     async function handleLogin(event) {
@@ -442,8 +474,8 @@
       btnText.textContent = "Authenticating...";
 
       try {
-        // Make authentication request to LOCAL backend
-        const response = await fetch("http://localhost:8080/api/users", {
+        const apiBase = getApiBase();
+        const response = await fetch(`${apiBase}/api/users`, {
           method: "GET",
           headers: {
             "Authorization": "Basic " + btoa(username + ":" + password),
@@ -459,10 +491,11 @@
           // Store credentials in sessionStorage
           sessionStorage.setItem("sopa_user", username);
           sessionStorage.setItem("sopa_auth", btoa(username + ":" + password));
+          sessionStorage.setItem("sopa_api_base", apiBase);
 
           // Redirect after a short delay
           setTimeout(() => {
-            window.location.href = "http://localhost:8080/dashboard.html";
+            window.location.href = `${apiBase}/dashboard.html`;
           }, 1500);
         } else if (response.status === 401) {
           // Unauthorized
