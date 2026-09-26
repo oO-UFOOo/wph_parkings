@@ -329,7 +329,7 @@
 
       if (!username) {
         // Redirect to login if not authenticated
-        window.location.href = "/";
+        window.location.href = "http://localhost:8080/";
         return;
       }
 
@@ -346,7 +346,7 @@
 
       try {
         // Fetch patrol clients count
-        const clientsRes = await fetch("/api/patrol-clients", {
+        const clientsRes = await fetch("http://localhost:8080/api/patrol-clients", {
           headers: { "Authorization": "Basic " + auth }
         });
         if (clientsRes.ok) {
@@ -355,7 +355,7 @@
         }
 
         // Fetch spots count
-        const spotsRes = await fetch("/api/spots", {
+        const spotsRes = await fetch("http://localhost:8080/api/spots", {
           headers: { "Authorization": "Basic " + auth }
         });
         if (spotsRes.ok) {
@@ -364,7 +364,7 @@
         }
 
         // Fetch activities count
-        const activitiesRes = await fetch("/api/patrol-spot-timestamps", {
+        const activitiesRes = await fetch("http://localhost:8080/api/patrol-spot-timestamps", {
           headers: { "Authorization": "Basic " + auth }
         });
         if (activitiesRes.ok) {
@@ -382,7 +382,7 @@
       sessionStorage.removeItem("sopa_auth");
 
       // Redirect to login
-      window.location.href = "/";
+      window.location.href = "http://localhost:8080/";
     }
   </script>
 </body>
