@@ -3,273 +3,499 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>SOPA | Open Eye Security</title>
-
+  <title>SOPA OpenEye - Login</title>
   <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html,body{
-      width:100%;
-      height:100%;
-      overflow:hidden;
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
-    body{
-
+    body {
       background:
-              radial-gradient(circle at 50% 110%,
-              rgba(0,95,255,.20) 0%,
-              rgba(0,95,255,.08) 25%,
-              transparent 55%),
+        radial-gradient(circle at 50% 110%,
+        rgba(0, 95, 255, 0.20) 0%,
+        rgba(0, 95, 255, 0.08) 25%,
+        transparent 55%),
+        radial-gradient(circle at center,
+        #071932 0%,
+        #041225 55%,
+        #020814 100%);
 
-              radial-gradient(circle at center,
-              #071932 0%,
-              #041225 55%,
-              #020814 100%);
-
-      font-family:Arial,Helvetica,sans-serif;
+      font-family: 'Arial', 'Helvetica', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* LOGOS */
-
-    .logo-container{
-
-      position:fixed;
-      inset:0;
-
-      display:flex;
-      justify-content:center;
-      align-items:center;
-
-      z-index:1;
-      pointer-events:none;
+    /* PARTICLES BACKGROUND */
+    #particles-js {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
     }
 
-    .logo{
-
-      position:absolute;
-
-      max-width:min(900px,88vw);
-      max-height:75vh;
-
-      width:auto;
-      height:auto;
-
-      object-fit:contain;
-
-      opacity:0;
-      transform:scale(.90);
-
-      transition:
-              opacity .9s ease,
-              transform .9s cubic-bezier(.2,.9,.3,1);
-
-      filter:
-              drop-shadow(0 0 18px rgba(70,160,255,.45))
-              drop-shadow(0 0 45px rgba(0,110,255,.20));
+    /* CONTAINER */
+    .login-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
     }
 
-    .logo.active{
-
-      opacity:1;
-      transform:scale(1);
-
+    /* CARD */
+    .login-card {
+      background: rgba(7, 25, 50, 0.8);
+      border: 1px solid rgba(0, 95, 255, 0.3);
+      border-radius: 15px;
+      padding: 50px 40px;
+      backdrop-filter: blur(10px);
+      box-shadow:
+        0 8px 32px 0 rgba(0, 95, 255, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
     }
 
-    /* PARTICLES */
-
-    #particles-js{
-
-      position:fixed;
-      inset:0;
-
-      width:100%;
-      height:100%;
-
-      z-index:2;
+    /* LOGO SECTION */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 40px;
     }
 
-    @media(max-width:768px){
+    .logo-image {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      opacity: 0;
+      animation: logoFadeIn 1s ease-out forwards;
+    }
 
-      .logo{
-
-        max-width:95vw;
-        max-height:70vh;
-
+    @keyframes logoFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
       }
-
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
+    .logo-title {
+      color: #fff;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #005fff, #0095ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-subtitle {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: slideUp 0.6s ease-out forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.2s; }
+    .form-group:nth-child(2) { animation-delay: 0.3s; }
+    .form-group:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    label {
+      display: block;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 95, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 95, 255, 0.5);
+      box-shadow: 0 0 15px rgba(0, 95, 255, 0.2);
+    }
+
+    /* BUTTONS */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: slideUp 0.6s ease-out forwards;
+    }
+
+    button:nth-of-type(1) { animation-delay: 0.5s; }
+    button:nth-of-type(2) { animation-delay: 0.6s; }
+
+    .btn-login {
+      background: linear-gradient(135deg, #005fff, #0095ff);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 95, 255, 0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 95, 255, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .btn-clear {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 95, 255, 0.3);
+    }
+
+    .btn-clear:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(0, 95, 255, 0.5);
+    }
+
+    /* STATUS MESSAGES */
+    .status-message {
+      margin-top: 20px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .status-message.show {
+      opacity: 1;
+    }
+
+    .status-message.error {
+      background: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 0, 0, 0.3);
+    }
+
+    .status-message.success {
+      background: rgba(0, 255, 0, 0.1);
+      color: #51cf66;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+    }
+
+    /* LOADING SPINNER */
+    .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-login.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-login.loading .spinner {
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    /* FOOTER */
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      z-index: 20;
+    }
+
+    /* DEMO CREDENTIALS */
+    .demo-info {
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(0, 95, 255, 0.2);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .demo-info strong {
+      color: rgba(0, 95, 255, 0.8);
+    }
   </style>
-
 </head>
-
 <body>
+  <!-- PARTICLES BACKGROUND -->
+  <div id="particles-js"></div>
 
-<div class="logo-container">
+  <!-- LOGIN CONTAINER -->
+  <div class="login-container">
+    <div class="login-card">
+      <!-- LOGO SECTION -->
+      <div class="logo-section">
+        <img id="logo" src="sopa.png" alt="SOPA OpenEye Logo" class="logo-image">
+        <div class="logo-title">SOPA</div>
+        <div class="logo-subtitle">OpenEye Security System</div>
+      </div>
 
-  <img id="logo1"
-       src="img.png"
-       class="logo active"
-       alt="Splash Logo">
+      <!-- LOGIN FORM -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <!-- USERNAME -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            autocomplete="username"
+            required
+          >
+        </div>
 
-  <img id="logo2"
-       src="2.png"
-       class="logo"
-       alt="Main Logo">
+        <!-- PASSWORD -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
 
-</div>
+        <!-- STATUS MESSAGE -->
+        <div id="statusMessage" class="status-message"></div>
 
-<div id="particles-js"></div>
+        <!-- BUTTONS -->
+        <div class="button-group">
+          <button type="submit" class="btn-login" id="loginBtn">
+            <span class="spinner"></span>
+            <span id="btnText">Login</span>
+          </button>
+          <button type="reset" class="btn-clear">Clear</button>
+        </div>
+      </form>
 
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+      <!-- DEMO CREDENTIALS INFO -->
+      <div class="demo-info">
+        <div><strong>Demo Credentials:</strong></div>
+        <div>UFO: <code>ufo / ufo_password_123</code></div>
+        <div>OpenEye: <code>openeye / openeye_password_123</code></div>
+      </div>
+    </div>
+  </div>
 
-<script>
+  <!-- FOOTER -->
+  <div class="footer">
+    SOPA OpenEye Security System &copy; 2026 | Surveillance and Patrol Operations
+  </div>
 
-  particlesJS("particles-js",{
+  <!-- PARTICLES.JS LIBRARY -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    particles:{
-
-      number:{
-        value:90,
-        density:{
-          enable:true,
-          value_area:900
+  <script>
+    // Initialize particles
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: "#005fff" },
+        shape: {
+          type: "circle",
+          stroke: { width: 0, color: "#000000" },
+          polygon: { nb_sides: 5 }
+        },
+        opacity: {
+          value: 0.5,
+          random: false,
+          anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#005fff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 6,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          attract: { enable: false, rotateX: 600, rotateY: 1200 }
         }
       },
-
-      color:{
-        value:"#ffffff"
-      },
-
-      shape:{
-        type:"circle"
-      },
-
-      opacity:{
-        value:.55,
-        random:true
-      },
-
-      size:{
-        value:3,
-        random:true
-      },
-
-      line_linked:{
-        enable:true,
-        distance:150,
-        color:"#69a9ff",
-        opacity:.28,
-        width:1
-      },
-
-      move:{
-        enable:true,
-        speed:1.4,
-        direction:"none",
-        random:true,
-        straight:false,
-        out_mode:"out"
-      }
-
-    },
-
-    interactivity:{
-
-      detect_on:"canvas",
-
-      events:{
-
-        onhover:{
-          enable:true,
-          mode:"grab"
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
         },
-
-        onclick:{
-          enable:true,
-          mode:"repulse"
-        },
-
-        resize:true
-
-      },
-
-      modes:{
-
-        grab:{
-          distance:180,
-          line_linked:{
-            opacity:.9
-          }
-        },
-
-        repulse:{
-          distance:180,
-          duration:.5
+        modes: {
+          grab: { distance: 400, line_linked: { opacity: 1 } },
+          bubble: { distance: 400, size: 40, duration: 2, opacity: 1, speed: 3 },
+          repulse: { distance: 200, duration: 0.4 },
+          push: { particles_nb: 4 },
+          remove: { particles_nb: 2 }
         }
+      },
+      retina_detect: true
+    });
 
-      }
+    // LOGIN HANDLER
+    async function handleLogin(event) {
+      event.preventDefault();
 
-    },
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const statusMessage = document.getElementById("statusMessage");
+      const loginBtn = document.getElementById("loginBtn");
+      const btnText = document.getElementById("btnText");
 
-    retina_detect:true
+      // Clear previous message
+      statusMessage.classList.remove("show", "error", "success");
 
-  });
+      // Disable button and show loading
+      loginBtn.classList.add("loading");
+      loginBtn.disabled = true;
+      btnText.textContent = "Authenticating...";
 
-
-  const logo1=document.getElementById("logo1");
-  const logo2=document.getElementById("logo2");
-
-  window.addEventListener("load",()=>{
-
-    logo1.classList.add("active");
-
-    setTimeout(()=>{
-
-      // First logo fades and shrinks
-      logo1.style.transform="scale(.75)";
-      logo1.style.opacity="0";
-
-      // Small delay for cinematic feel
-      setTimeout(()=>{
-
-        logo2.classList.add("active");
-
-        // Nice pop animation
-        logo2.animate([
-          {
-            transform:"scale(.85)",
-            opacity:0
-          },
-          {
-            transform:"scale(1.05)",
-            opacity:1
-          },
-          {
-            transform:"scale(1)"
+      try {
+        // Make authentication request
+        const response = await fetch("/api/users", {
+          method: "GET",
+          headers: {
+            "Authorization": "Basic " + btoa(username + ":" + password),
+            "Content-Type": "application/json"
           }
-
-        ],{
-
-          duration:900,
-          easing:"cubic-bezier(.18,.9,.25,1)"
-
         });
 
-      },350);
+        if (response.ok) {
+          // Success
+          statusMessage.textContent = "✓ Login successful! Redirecting...";
+          statusMessage.classList.add("show", "success");
 
-    },5000);
+          // Store credentials in sessionStorage
+          sessionStorage.setItem("sopa_user", username);
+          sessionStorage.setItem("sopa_auth", btoa(username + ":" + password));
 
-  });
+          // Redirect after a short delay
+          setTimeout(() => {
+            window.location.href = "/dashboard.html";
+          }, 1500);
+        } else if (response.status === 401) {
+          // Unauthorized
+          statusMessage.textContent = "✗ Invalid username or password";
+          statusMessage.classList.add("show", "error");
+        } else {
+          // Other error
+          statusMessage.textContent = "✗ Login failed. Please try again.";
+          statusMessage.classList.add("show", "error");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        statusMessage.textContent = "✗ Connection error. Please check your connection.";
+        statusMessage.classList.add("show", "error");
+      } finally {
+        // Re-enable button
+        loginBtn.classList.remove("loading");
+        loginBtn.disabled = false;
+        btnText.textContent = "Login";
+      }
+    }
 
-</script>
-
+    // Demo login shortcuts (for quick testing)
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "1") {
+        document.getElementById("username").value = "ufo";
+        document.getElementById("password").value = "ufo_password_123";
+      }
+      if (e.ctrlKey && e.key === "2") {
+        document.getElementById("username").value = "openeye";
+        document.getElementById("password").value = "openeye_password_123";
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOPA OpenEye - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #071932 0%, #041225 50%, #020814 100%);
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background: rgba(7, 25, 50, 0.9);
+      border-right: 1px solid rgba(0, 95, 255, 0.2);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 95, 255, 0.2);
+    }
+
+    .sidebar-logo img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .sidebar-logo h2 {
+      font-size: 18px;
+      background: linear-gradient(135deg, #005fff, #0095ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+
+    .sidebar-menu a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background: rgba(0, 95, 255, 0.2);
+      color: #fff;
+      border-left: 3px solid #005fff;
+      padding-left: 12px;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      background: rgba(7, 25, 50, 0.9);
+      border-bottom: 1px solid rgba(0, 95, 255, 0.2);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .header-title p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+    }
+
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background: rgba(255, 0, 0, 0.2);
+      border: 1px solid rgba(255, 0, 0, 0.4);
+      color: #ff6b6b;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 0, 0, 0.3);
+      border-color: rgba(255, 0, 0, 0.6);
+    }
+
+    /* CONTENT AREA */
+    .content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    /* CARDS */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(7, 25, 50, 0.8);
+      border: 1px solid rgba(0, 95, 255, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 95, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 95, 255, 0.1);
+    }
+
+    .card h3 {
+      color: #005fff;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .card .value {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #fff;
+    }
+
+    /* BUTTON */
+    .btn-primary {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #005fff, #0095ff);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 95, 255, 0.4);
+    }
+
+    /* WELCOME MESSAGE */
+    .welcome-section {
+      background: rgba(0, 95, 255, 0.1);
+      border: 1px solid rgba(0, 95, 255, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .welcome-section h2 {
+      margin-bottom: 10px;
+      color: #0095ff;
+    }
+
+    .welcome-section p {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="sopa.png" alt="SOPA Logo">
+        <h2>SOPA</h2>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">Patrol Clients</a></li>
+        <li><a href="#">QR Spots</a></li>
+        <li><a href="#">Activities</a></li>
+        <li><a href="#">Timestamps</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- HEADER -->
+      <header class="header">
+        <div class="header-title">
+          <h1>Dashboard</h1>
+          <p id="userDisplay">Welcome back!</p>
+        </div>
+
+        <div class="header-user">
+          <div class="user-info">
+            <p id="username">Loading...</p>
+            <p>SOPA System</p>
+          </div>
+          <button class="logout-btn" onclick="handleLogout()">Logout</button>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- WELCOME SECTION -->
+        <div class="welcome-section">
+          <h2>Welcome to SOPA OpenEye Security System</h2>
+          <p>
+            You are now logged into the SOPA (Surveillance and Patrol Operations) OpenEye Security System.
+            This dashboard provides real-time access to patrol operations, QR spot tracking, and activity monitoring.
+            Navigate through the menu to explore different sections of the application.
+          </p>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="card-grid">
+          <div class="card">
+            <h3>📊 Patrol Clients</h3>
+            <div class="value" id="clientCount">-</div>
+            <p>Active patrol clients in the system</p>
+            <button class="btn-primary">View Details</button>
+          </div>
+
+          <div class="card">
+            <h3>📍 QR Spots</h3>
+            <div class="value" id="spotCount">-</div>
+            <p>Registered patrol spots with GPS coordinates</p>
+            <button class="btn-primary">View Spots</button>
+          </div>
+
+          <div class="card">
+            <h3>📝 Recent Activities</h3>
+            <div class="value" id="activityCount">-</div>
+            <p>Check-in/out activities this week</p>
+            <button class="btn-primary">View Timeline</button>
+          </div>
+
+          <div class="card">
+            <h3>🔐 System Status</h3>
+            <div class="value" style="color: #51cf66;">✓ Active</div>
+            <p>All systems operational and secure</p>
+            <button class="btn-primary">More Info</button>
+          </div>
+        </div>
+
+        <!-- INFO SECTION -->
+        <div class="card" style="margin-top: 40px;">
+          <h3>API Endpoints Reference</h3>
+          <p>
+            <strong>Base URL:</strong> http://localhost:8080/api<br><br>
+            <strong>Available Endpoints:</strong><br>
+            • GET /users - List all users<br>
+            • GET /patrol-clients - List patrol clients<br>
+            • GET /spots - List all QR spots<br>
+            • GET /timestamps - View audit logs<br>
+            • GET /patrol-spot-timestamps - View patrol activities<br><br>
+            All endpoints require HTTP Basic Authentication with your credentials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load user info on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      const username = sessionStorage.getItem("sopa_user");
+
+      if (!username) {
+        // Redirect to login if not authenticated
+        window.location.href = "/";
+        return;
+      }
+
+      // Display username
+      document.getElementById("username").textContent = username.toUpperCase();
+      document.getElementById("userDisplay").textContent = `Welcome back, ${username}!`;
+
+      // Simulate loading some data
+      loadDashboardData();
+    });
+
+    async function loadDashboardData() {
+      const auth = sessionStorage.getItem("sopa_auth");
+
+      try {
+        // Fetch patrol clients count
+        const clientsRes = await fetch("/api/patrol-clients", {
+          headers: { "Authorization": "Basic " + auth }
+        });
+        if (clientsRes.ok) {
+          const clients = await clientsRes.json();
+          document.getElementById("clientCount").textContent = clients.length || 0;
+        }
+
+        // Fetch spots count
+        const spotsRes = await fetch("/api/spots", {
+          headers: { "Authorization": "Basic " + auth }
+        });
+        if (spotsRes.ok) {
+          const spots = await spotsRes.json();
+          document.getElementById("spotCount").textContent = spots.length || 0;
+        }
+
+        // Fetch activities count
+        const activitiesRes = await fetch("/api/patrol-spot-timestamps", {
+          headers: { "Authorization": "Basic " + auth }
+        });
+        if (activitiesRes.ok) {
+          const activities = await activitiesRes.json();
+          document.getElementById("activityCount").textContent = activities.length || 0;
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    }
+
+    function handleLogout() {
+      // Clear session storage
+      sessionStorage.removeItem("sopa_user");
+      sessionStorage.removeItem("sopa_auth");
+
+      // Redirect to login
+      window.location.href = "/";
+    }
+  </script>
+</body>
+</html>
