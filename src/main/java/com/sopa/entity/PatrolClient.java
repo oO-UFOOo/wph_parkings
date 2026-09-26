@@ -1,5 +1,6 @@
 package com.sopa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -29,6 +30,8 @@ public class PatrolClient {
     @Column(name = "description")
     private String description;
 
+    // Prevent infinite recursion when serializing to JSON (Spot -> patrolClient -> spots -> ...)
+    @JsonIgnore
     @OneToMany(mappedBy = "patrolClient", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Spot> spots = new HashSet<>();
 
