@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().permitAll()
                 )
-                .httpBasic(httpBasic -> httpBasic.disable())
+                .httpBasic(basic -> basic.realmName("SOPA"))
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout.disable());
         return http.build();
