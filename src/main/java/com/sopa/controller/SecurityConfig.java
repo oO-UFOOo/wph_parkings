@@ -41,16 +41,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/parkings/**").authenticated()
-                .requestMatchers("/api/patrol-clients/**").authenticated()
-                .requestMatchers("/api/spots/**").authenticated()
-                .requestMatchers("/api/timestamps/**").authenticated()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic();
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/index.html", "/dashboard.html", "/favicon.ico", "/sopa.png", "/img.png", "/img_1.png", "/2.png").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/parkings/**").authenticated()
+                        .requestMatchers("/api/patrol-clients/**").authenticated()
+                        .requestMatchers("/api/spots/**").authenticated()
+                        .requestMatchers("/api/timestamps/**").authenticated()
+                        .requestMatchers("/api/patrol-spot-timestamps/**").authenticated()
+                        .requestMatchers("/api/users/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(form -> form.disable())
+                .logout(logout -> logout.disable());
         return http.build();
     }
 }
