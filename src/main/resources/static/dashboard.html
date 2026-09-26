@@ -323,13 +323,17 @@
   </div>
 
   <script>
+    function getApiBase() {
+      return sessionStorage.getItem("sopa_api_base") || window.location.origin;
+    }
+
     // Load user info on page load
     window.addEventListener("DOMContentLoaded", () => {
       const username = sessionStorage.getItem("sopa_user");
 
       if (!username) {
         // Redirect to login if not authenticated
-        window.location.href = "http://localhost:8080/";
+        window.location.href = `${getApiBase()}/`;
         return;
       }
 
@@ -343,10 +347,11 @@
 
     async function loadDashboardData() {
       const auth = sessionStorage.getItem("sopa_auth");
+      const apiBase = getApiBase();
 
       try {
         // Fetch patrol clients count
-        const clientsRes = await fetch("http://localhost:8080/api/patrol-clients", {
+        const clientsRes = await fetch(`${apiBase}/api/patrol-clients`, {
           headers: { "Authorization": "Basic " + auth }
         });
         if (clientsRes.ok) {
@@ -355,7 +360,7 @@
         }
 
         // Fetch spots count
-        const spotsRes = await fetch("http://localhost:8080/api/spots", {
+        const spotsRes = await fetch(`${apiBase}/api/spots`, {
           headers: { "Authorization": "Basic " + auth }
         });
         if (spotsRes.ok) {
@@ -364,7 +369,7 @@
         }
 
         // Fetch activities count
-        const activitiesRes = await fetch("http://localhost:8080/api/patrol-spot-timestamps", {
+        const activitiesRes = await fetch(`${apiBase}/api/patrol-spot-timestamps`, {
           headers: { "Authorization": "Basic " + auth }
         });
         if (activitiesRes.ok) {
@@ -380,9 +385,10 @@
       // Clear session storage
       sessionStorage.removeItem("sopa_user");
       sessionStorage.removeItem("sopa_auth");
+      sessionStorage.removeItem("sopa_api_base");
 
       // Redirect to login
-      window.location.href = "http://localhost:8080/";
+      window.location.href = `${getApiBase()}/`;
     }
   </script>
 </body>
