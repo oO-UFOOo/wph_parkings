@@ -1,0 +1,179 @@
+{
+  "info": {
+    "name": "SOPA Backend API",
+    "description": "Postman collection for SOPA OpenEye Backend testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variables": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "ufo",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "ufo_password_123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Patrol Clients",
+      "item": [
+        {
+          "name": "Get All Patrol Clients",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/patrol-clients",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Patrol Client",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/patrol-clients",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientName\": \"Downtown Patrol\", \"clientCode\": \"DT-001\", \"description\": \"Downtown area\", \"isActive\": true}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spots",
+      "item": [
+        {
+          "name": "Get All Spots",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/spots",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Spot with Location",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/spots",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"spotName\": \"Main Street\", \"qrCode\": \"QR-001\", \"longitude\": -73.935242, \"latitude\": 40.730610, \"patrolClientId\": 1, \"description\": \"Main street intersection\", \"isActive\": true}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Timestamps",
+      "item": [
+        {
+          "name": "Get All General Timestamps",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/timestamps",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Log Event",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/timestamps",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"eventType\": \"SPOT_CHECK\", \"description\": \"Officer checked spot\", \"userId\": 1, \"entityType\": \"SPOT\", \"entityId\": 1}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Patrol Spot Timestamps",
+      "item": [
+        {
+          "name": "Check-in to Spot",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/patrol-spot-timestamps",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"spotId\": 1, \"patrolClientId\": 1, \"status\": \"CHECKED_IN\"}"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {"key": "username", "value": "{{username}}", "type": "string"},
+                {"key": "password", "value": "{{password}}", "type": "string"}
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
