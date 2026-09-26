@@ -1,15 +1,14 @@
 package com.sopa.controller;
 
+import com.sopa.repository.AppUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,20 +21,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails ufoUser = User.builder()
-                .username("ufo")
-                .password(passwordEncoder().encode("ufo_password_123"))
-                .roles("UFO_USER")
-                .build();
-
-        UserDetails openEyeUser = User.builder()
-                .username("openeye")
-                .password(passwordEncoder().encode("openeye_password_123"))
-                .roles("OPENEYE_USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(ufoUser, openEyeUser);
+    public UserDetailsService userDetailsService(AppUserRepository appUserRepository) {
+        // Load users from the database instead of hardcoded in-memory users
+        return username -> appUserRepository.findByUsername(username)
+                .map(appUser -> org.springframework.security.core.userdetails.User.builder()
+                        .username(appUser.getUsername())
+                        .password(appUser.getPassword())
+                        .roles(appUser.getAppType())
+                        .accountLocked(!appUser.getIsActive())
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
     @Bean
