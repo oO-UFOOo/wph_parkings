@@ -43,7 +43,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/dashboard.html", "/favicon.ico", "/sopa.png", "/img.png", "/img_1.png", "/2.png").permitAll()
+                        .requestMatchers("/", "/index.html", "/dashboard.html", "/favicon.ico", "/sopa.png", "/img.png", "/img_1.png", "/2.png", "/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/parkings/**").authenticated()
                         .requestMatchers("/api/patrol-clients/**").authenticated()
